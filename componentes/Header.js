@@ -1,49 +1,6 @@
-
 // import React, { useState } from 'react';
 // import { useRouter } from 'next/router';
 
-// export default function Header() {
-//   const router = useRouter();
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//   const irACrearLibro = () => {
-//     router.push('/add-libro');
-//   };
-
-//   const irACrearCuenta = () => {
-//     router.push('/crear-cuenta');
-//   };
-
-//   const irAIngresar = () => {
-//     setIsLoggedIn(true);
-//   };
-
-//   return (
-//     <header className="header">
-//       <div className="header-content">
-//         <div className="header-buttons">
-//           <button onClick={irACrearLibro} className="btn-crear-libro">
-//             Crear Nuevo Libro
-//           </button>
-//           {!isLoggedIn && (
-//             <>
-//               <button onClick={irACrearCuenta} className="btn-crear-cuenta">
-//                 Crea tu cuenta
-//               </button>
-//               <button onClick={irAIngresar} className="btn-ingresar">
-//                 Ingresa
-//               </button>
-//             </>
-//           )}
-//         </div>
-//         <h1 className="header-title">Mi Aplicación de Libros</h1>
-//       </div>
-//     </header>
-//   );
-// }
-
-// import React, { useState } from 'react';
-// import { useRouter } from 'next/router';
 
 // export default function Header() {
 //   const router = useRouter();
@@ -52,41 +9,57 @@
 //   const [showLoginModal, setShowLoginModal] = useState(false);
 
 //   const irACrearLibro = () => {
-//     router.push('/add-libro');
+//     router.push('/manage/add-libro');
 //   };
 
 //   const handleCreateAccount = (e) => {
 //     e.preventDefault();
-//     setShowCreateAccountModal(false);
-//     alert('Cuenta creada exitosamente.');
+//     setShowCreateAccountModal(false);    
 //   };
 
 //   const handleLogin = (e) => {
 //     e.preventDefault();
 //     setIsLoggedIn(true);
 //     setShowLoginModal(false);
-//     alert('Ingreso exitoso.');
 //   };
+
+//   const irAEditar = () => {
+//     router.push('/manage/lista_libros'); // Redirige a la página de editar
+//   };
+
+//   const isAddLibroPage = router.pathname === '/manage/add-libro';
 
 //   return (
 //     <header className="header">
 //       <div className="header-content">
+//         <h1 className="header-title">Mi Aplicación de Libros</h1>
 //         <div className="header-buttons">
-//           <button onClick={irACrearLibro} className="btn-crear-libro">
-//             Crear Nuevo Libro
-//           </button>
-//           {!isLoggedIn && (
+//           {/* Mostrar botones de "Crear Nuevo Libro" solo si el usuario está autenticado y no en la página de agregar libro */}
+//           {isLoggedIn && !isAddLibroPage && (
+//             <button onClick={irACrearLibro} className="btn">
+//               Crear Nuevo Libro
+//             </button>
+//           )}
+//           {/* Mostrar botones de "Crear cuenta" e "Ingresar" solo si el usuario no está autenticado */}
+//           {!isLoggedIn && !isAddLibroPage && (
 //             <>
-//               <button onClick={() => setShowCreateAccountModal(true)} className="btn-crear-cuenta">
+//               <button onClick={() => setShowCreateAccountModal(true)} className="btn">
 //                 Crea tu cuenta
 //               </button>
-//               <button onClick={() => setShowLoginModal(true)} className="btn-ingresar">
+//               <button onClick={() => setShowLoginModal(true)} className="btn">
 //                 Ingresa
 //               </button>
 //             </>
 //           )}
+//           {/* Mostrar botones de "Editar" y "Borrar" solo si estamos en la página de agregar libro */}
+//           {isAddLibroPage && (
+//             <>
+//               <button onClick={irAEditar} className="btn">
+//                 Editar
+//               </button>              
+//             </>
+//           )}
 //         </div>
-//         <h1 className="header-title">Mi Aplicación de Libros</h1>
 //       </div>
 
 //       {showCreateAccountModal && (
@@ -146,7 +119,7 @@ export default function Header() {
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const irACrearLibro = () => {
-    router.push('/add-libro');
+    router.push('/manage/add-libro');
   };
 
   const handleCreateAccount = (e) => {
@@ -158,27 +131,53 @@ export default function Header() {
     e.preventDefault();
     setIsLoggedIn(true);
     setShowLoginModal(false);
+    router.push('/manage/add-libro'); // Redirige a la página de agregar libro después de iniciar sesión
   };
+
+  const irAEditar = () => {
+    router.push('/manage/lista_libros'); // Redirige a la página de editar
+  };
+
+  const isAddLibroPage = router.pathname === '/manage/add-libro';
+  const isEditLibroPage = router.pathname === '/manage/lista_libros'; // Detecta si estamos en la página de edición
 
   return (
     <header className="header">
       <div className="header-content">
+      <h1 className="header-title">
+          <a href="http://localhost:3000">Mi Aplicación de Libros</a>
+        </h1>
         <div className="header-buttons">
-          <button onClick={irACrearLibro} className="btn-crear-libro">
-            Crear Nuevo Libro
-          </button>
-          {!isLoggedIn && (
+          {/* Mostrar botones de "Crear Nuevo Libro" solo si el usuario está autenticado y no en la página de agregar libro */}
+          {isLoggedIn && !isAddLibroPage && !isEditLibroPage && (
+            <button onClick={irACrearLibro} className="btn">
+              Crear Nuevo Libro
+            </button>
+          )}
+          {/* Mostrar botones de "Crear cuenta" e "Ingresar" solo si el usuario no está autenticado */}
+          {!isLoggedIn && !isAddLibroPage && !isEditLibroPage && (
             <>
-              <button onClick={() => setShowCreateAccountModal(true)} className="btn-crear-cuenta">
+              <button onClick={() => setShowCreateAccountModal(true)} className="btn">
                 Crea tu cuenta
               </button>
-              <button onClick={() => setShowLoginModal(true)} className="btn-ingresar">
+              <button onClick={() => setShowLoginModal(true)} className="btn">
                 Ingresa
               </button>
             </>
           )}
+          {/* Mostrar botón de "Editar" solo si estamos en la página de agregar libro */}
+          {isAddLibroPage && (
+            <button onClick={irAEditar} className="btn">
+              Editar
+            </button>
+          )}
+          {/* Mostrar botón de "Agregar Nuevo Libro" solo si estamos en la página de edición */}
+          {isEditLibroPage && (
+            <button onClick={irACrearLibro} className="btn">
+              Agregar Nuevo Libro
+            </button>
+          )}
         </div>
-        <h1 className="header-title">Mi Aplicación de Libros</h1>
       </div>
 
       {showCreateAccountModal && (

@@ -1,1 +1,8 @@
-{}
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/manage/lista_libros": "pages/manage/lista_libros.js",
+  "/manage/add-libro": "pages/manage/add-libro.js",
+  "/": "pages/index.js"
+}

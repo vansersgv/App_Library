@@ -1,13 +1,12 @@
 
 /* Estilos generales */
 body {
-  margin: 0;
+  margin: 50;
   font-family: Arial, sans-serif;
 }
 
 /* Header fijo */
-.header {
-  position: fixed;
+.header {  
   top: 0;
   width: 100%;
   background-color: #f8f9fa;
@@ -103,17 +102,32 @@ body {
   background-color: #5a6268;
 }
 
+/* Contenedor general para las tarjetas de libros */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas */
+  gap: 1rem; /* Espacio entre columnas */
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centra el contenedor */
+  width: 100%; /* Asegura que el contenedor use el ancho disponible */
+}
 
-/* Estilos para las tarjetas de libros */
+/* Estilos para cada tarjeta de libro */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ajusta el tamaño mínimo y máximo de las columnas */
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .card-libro {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 1rem;
-  width: calc(33.333% - 2rem); /* Ajuste para tres columnas */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
-  margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,22 +174,90 @@ body {
 
 /* Estilos responsivos */
 @media (max-width: 1024px) {
-  .card-libro {
-    width: calc(50% - 2rem); /* Dos columnas en pantallas medianas */
+  .card-list {
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas en pantallas medianas */
   }
 }
 
 @media (max-width: 768px) {
-  .card-libro {
-    width: calc(50% - 2rem); /* Dos columnas en pantallas pequeñas */
+  .card-list {
+    grid-template-columns: repeat(1, 1fr); /* Una columna en pantallas pequeñas */
   }
 }
 
-@media (max-width: 480px) {
-  .card-libro {
-    width: 100%; /* Una columna en pantallas muy pequeñas */
-  }
-}
+/* Estilos para las tarjetas de libros */
+// .card-libro {
+//   background-color: #fff;
+//   border: 1px solid #ccc;
+//   border-radius: 8px;
+//   padding: 1rem;
+//   width: calc(25% - 2rem); /* Ajuste para tres columnas */
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//   transition: transform 0.3s;
+//   margin: 1rem;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   text-align: center;
+// }
+
+// .card-libro:hover {
+//   transform: scale(1.05);
+// }
+
+// .card-libro-header {
+//   background-color: #f8f9fa;
+//   padding: 0.5rem;
+//   border-bottom: 1px solid #ccc;
+//   border-radius: 8px 8px 0 0;
+//   width: 100%;
+// }
+
+// .card-libro-header h3 {
+//   margin: 0;
+// }
+
+// .card-libro-body {
+//   padding: 1rem;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// }
+
+// .btn-toggle-description {
+//   padding: 0.5rem 1rem;
+//   border: none;
+//   cursor: pointer;
+//   background-color: #007bff;
+//   color: #ffffff;
+//   border-radius: 4px;
+//   transition: background-color 0.3s;
+//   margin-bottom: 1rem;
+// }
+
+// .btn-toggle-description:hover {
+//   background-color: #0056b3;
+// }
+
+
+// /* Estilos responsivos */
+// @media (max-width: 1024px) {
+//   .card-libro {
+//     width: calc(50% - 2rem); /* Dos columnas en pantallas medianas */
+//   }
+// }
+
+// @media (max-width: 768px) {
+//   .card-libro {
+//     width: calc(50% - 2rem); /* Dos columnas en pantallas pequeñas */
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .card-libro {
+//     width: 100%; /* Una columna en pantallas muy pequeñas */
+//   }
+// }
 
 
 //header

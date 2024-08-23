@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { obtenerLibros, editarLibro } from '../api/servicioLibro';
-import Header from '../componentes/Header';
-import Footer from '../componentes/Footer';
+import { obtenerLibros, editarLibro } from '../../api/servicioLibro';
+import Header from '../../componentes/Header';
+import Footer from '../../componentes/Footer';
 
 const EditLibro = () => {
   const [titulo, setTitulo] = useState('');

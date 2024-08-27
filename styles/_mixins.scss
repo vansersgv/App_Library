@@ -1,0 +1,41 @@
+
+@mixin box-sizing($display, $flex-wrap, $justify-content) {
+    display: $display;
+    flex-wrap: $flex-wrap;
+    justify-content: $justify-content;
+  }
+
+  @mixin content($display, $flex-direction, $align-items) {
+        display: $display;
+        flex-direction: $flex-direction;
+        align-items: $align-items;
+    }
+
+@mixin card($box-sizing, $background-color, $border, $border-radius, $box-shadow, $overflow, $transition, $text-align) {
+    
+    box-sizing: $box-sizing;
+    background-color: $background-color;
+    border: $border;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    overflow: $overflow;
+    transition: $transition;
+    text-align: $text-align;
+}
+
+@mixin card-tit($padding, $border-radius, $margin-bottom) {
+    padding: $padding;
+    border-radius: $border-radius;
+    margin-bottom: $margin-bottom;
+}
+
+@mixin card-btn($btn-primary-bg, $color, $padding, $border, $border-radius, $cursor, $font-size, $transition ) {
+background-color: $btn-primary-bg;
+color: $color;
+padding: $padding;
+border: $border;
+border-radius: $border-radius;
+cursor: $cursor;
+font-size: $font-size;
+transition: $transition;
+}

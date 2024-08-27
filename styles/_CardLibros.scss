@@ -1,0 +1,144 @@
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  button {
+    @include card-btn($btn-primary-bg, $background-color, 10px 20px, none, $btn-border-radius, pointer, $font-size-base, background-color 0.3s);
+    margin: 0 10px;
+
+    &:disabled {
+      background-color: lighten($btn-primary-bg, 20%);
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: darken($secondary-color, 5%);
+    }
+  }
+
+  span {
+    font-size: $font-size-base;
+    margin: 0 10px;
+  }
+}
+
+.card-grid {
+  @include box-sizing(flex, wrap, center);
+  margin: 40px 50px;
+  padding: 20px;
+}
+
+.card-item {
+  @include card(border-box, $card-bg-color, 2px solid $card-border-color, $card-border-radius, 0px 4px 8px $card-shadow-color, hidden, transform 0.2s ease-in-out, center);
+  flex: 1 1 calc(23% - 20px);
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-content {
+  @include content(flex, column, center);
+  flex-grow: 1;
+}
+
+.card-title {
+  @include card-tit(10px, $modal-border-radius, 15px);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.card-libro-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+
+.photo-section {
+  display: flex;
+  margin: 40px 0;
+  padding: 20px;
+  gap: 20px;
+  justify-content: center;
+}
+
+.photo-large {
+  flex: 2;
+}
+
+.photo-small {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.photo-large img,
+.photo-small img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries para diseño responsivo */
+@media (max-width: 1200px) {
+  .card-item {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 992px) {
+  .card-item {
+    flex: 1 1 calc(50% - 20px);
+  }
+
+  .photo-section {
+    flex-direction: column;
+  }
+
+  .photo-large,
+  .photo-small {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-item {
+    flex: 1 1 calc(100% - 20px);
+  }
+
+  .photo-section {
+    flex-direction: column;
+  }
+
+  .photo-large,
+  .photo-small {
+    flex: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-item {
+    flex: 1 1 calc(100% - 20px);
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pagination-controls button {
+    width: 100%;
+  }
+}

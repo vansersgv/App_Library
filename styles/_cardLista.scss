@@ -1,0 +1,84 @@
+
+
+.card-grid {
+  @include box-sizing(flex, wrap, center);
+  margin: 40px 0;
+}
+
+.card-item {
+  @include card(border-box, $card-bg-color, 2px solid $card-border-color, $card-border-radius, 0px 4px 8px $card-shadow-color, hidden, transform 0.2s ease-in-out, center);  
+  flex: 1 1 calc(23% - 20px) !important; 
+  padding: 20px;
+  margin: 20px !important;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.card-content {
+  @include content(flex, column, center);
+}
+
+.card-title {  
+  @include card-tit(10px, $modal-border-radius, 15px);
+}
+
+.input-field,
+.textarea-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid $input-border-color;
+  border-radius: $modal-border-radius;
+  font-size: $font-size-base;
+  margin-bottom: 10px;
+
+  &:focus {
+    border-color: $input-focus-border-color;
+    outline: none;
+  }
+}
+
+.btn {
+  @include card-btn($btn-primary-bg, $background-color, 10px 20px, none, $btn-border-radius, pointer, $font-size-base, background-color 0.3s);  
+
+  &:hover {
+    background-color: darken($buttons-color, 1%);
+  }
+
+  &.btn-cancel {
+    background-color: lighten($btn-primary-bg, 10%);
+  }
+}
+
+.card-libro-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Media Queries para diseño responsivo */
+
+@media (max-width: 992px) {
+  .card-item {
+    flex: 1 1 calc(50% - 20px) !important; 
+  }
+}
+
+@media (max-width: 768px) {
+  .card-item {
+    flex: 1 1 calc(100% - 20px) !important; 
+  }
+}
+
+@media (max-width: 576px) {
+  .card-item {
+    flex: 1 1 calc(100% - 20px) !important; 
+  }
+
+  .card-libro-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

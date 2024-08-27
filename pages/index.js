@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerLibros } from '../api/servicioLibro';
-import CardLibro from '../componentes/CardLibro'; // Corrige el nombre si es necesario
-import Header from '../componentes/Header'; // Importar el componente Header
-import Footer from '../componentes/Footer'; // Importar el componente Footer
-
+import CardLibro from '../componentes/CardLibro';
+import Header from '../componentes/Header';
+import Footer from '../componentes/Footer';
+import HeroSection from '../componentes/Hero';
 const Index = () => {
   const [libros, setLibros] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const booksPerPage = 4; 
 
   useEffect(() => {
     const fetchLibros = async () => {
@@ -25,6 +27,23 @@ const Index = () => {
     fetchLibros();
   }, []);
 
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentLibros = libros.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(libros.length / booksPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   if (loading) {
     return <p>Cargando libros...</p>;
   }
@@ -35,18 +54,30 @@ const Index = () => {
 
   return (
     <div>
-      <Header /> {/* Usar el componente Header */}
+      <Header /> 
+      <HeroSection />
       <h1>Lista de Libros</h1>
-      <div>
-        {libros.length > 0 ? (
-          libros.map((libro) => (
-            <CardLibro key={libro.idLibro} libro={libro} />
+      <div className="card-grid">
+        {currentLibros.length > 0 ? (
+          currentLibros.map((libro) => (
+            <div className="card-item" key={libro.idLibro}>
+              <CardLibro libro={libro} />
+            </div>
           ))
         ) : (
           <p>No hay libros disponibles.</p>
         )}
       </div>
-      <Footer /> {/* Usar el componente Footer */}
+      <div className="pagination-controls">
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Anterior
+        </button>
+        <span>Página {currentPage} de {totalPages}</span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          Siguiente
+        </button>
+      </div>
+      <Footer />
     </div>
   );
 };

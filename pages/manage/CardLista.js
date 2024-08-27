@@ -1,66 +1,6 @@
-// import React, { useState } from 'react';
-// import { useRouter } from 'next/router';
-
-// const CardLista = ({ libro, onDelete }) => {
-//   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
-//   const router = useRouter();
-
-//   const toggleDescription = () => {
-//     setIsDescriptionVisible(!isDescriptionVisible);
-//   };
-
-//   const handleEdit = () => {
-//     router.push(`/edit-libro/${libro.idLibro}`);
-//   };
-
-//   const handleDelete = () => {
-//     if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
-//       fetch(`/api/libros/${libro.idLibro}`, {
-//         method: 'DELETE',
-//       })
-//         .then(() => {
-//           alert('Libro eliminado con éxito');
-//           onDelete(libro.idLibro);
-//         })
-//         .catch((error) => {
-//           console.error('Error al eliminar el libro:', error);
-//         });
-//     }
-//   };
-
-//   return (
-//     <div className="card-libro">
-//       <div className="card-libro-header">
-//         <h3>{libro.titulo}</h3>
-//       </div>
-//       <button onClick={handleEdit} style={{ padding: '10px', backgroundColor: 'blue', color: 'white' }}>
-//   Editar
-// </button>
-// <button onClick={handleDelete} style={{ padding: '10px', backgroundColor: 'red', color: 'white' }}>
-//   Eliminar
-// </button>
-//       <div className="card-libro-body">
-//         <button onClick={toggleDescription} className="btn-toggle-description">
-//           {isDescriptionVisible ? 'Ocultar Descripción' : 'Mostrar Descripción'}
-//         </button>
-//         {isDescriptionVisible && <p>{libro.descripcion}</p>}
-//         <p>Fecha de Publicación: {new Date(libro.fechaDePublicacion).toLocaleDateString()}</p>
-//         <p>Autor: {libro.autorNombre}</p>
-//         <p>Nacionalidad: {libro.autorNacionalidad}</p>
-//         <p>Fecha de Nacimiento: {new Date(libro.autorFechaNacimiento).toLocaleDateString()}</p>
-//         <div className="card-libro-buttons">
-    
-
-//         </div>
-//       </div>      
-//     </div>
-//   );
-// };
-
-// export default CardLista;
-
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const CardLista = ({ libro, onDelete, onUpdate }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
@@ -82,28 +22,8 @@ const CardLista = ({ libro, onDelete, onUpdate }) => {
     setIsEditing(true);
   };
 
-//   const handleSave = () => {
-//     // Llamada a la API para actualizar el libro
-//     fetch(`http://localhost:5105/api/Libro/editar${libro.idLibro}`, {
-//       method: 'PUT',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(editData),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         alert('Libro actualizado con éxito');
-//         setIsEditing(false);
-//         onUpdate(libro.idLibro, data); // Actualiza el estado en el componente padre
-//       })
-//       .catch((error) => {
-//         console.error('Error al actualizar el libro:', error);
-//       });
-//   };
-const handleSave = () => {
-    // Llamada a la API para actualizar el libro
-    fetch(`http://localhost:5105/api/Libro/editar/${libro.idLibro}`, {
+  const handleSave = () => {
+    fetch(`${API_URL}/libro/editar/${libro.idLibro}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -114,31 +34,42 @@ const handleSave = () => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }
-        return response.text(); // Usa text() en lugar de json() si la respuesta no es JSON
+        return response.text();
       })
       .then((text) => {
-        alert('Libro actualizado con éxito');
-        setIsEditing(false);
-        onUpdate(libro.idLibro, text); // Actualiza el estado en el componente padre
+        try {
+          const updatedLibro = JSON.parse(text);
+          alert('Libro actualizado con éxito');
+          setIsEditing(false);
+          if (onUpdate) {
+            onUpdate(libro.idLibro, updatedLibro);
+          }
+        } catch (error) {
+          console.warn('Respuesta no es un JSON válido:', text);
+          alert('Libro actualizado con éxito');
+          setIsEditing(false);
+        }
       })
       .catch((error) => {
         console.error('Error al actualizar el libro:', error);
         alert('Hubo un problema al actualizar el libro.');
       });
   };
-  
+
   const handleCancel = () => {
     setIsEditing(false);
   };
 
   const handleDelete = () => {
     if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
-      fetch(`http://localhost:5105/api/Libro/eliminar/${libro.idLibro}`, {
+      fetch(`${API_URL}/libro/eliminar/${libro.idLibro}`, {
         method: 'DELETE',
       })
         .then(() => {
           alert('Libro eliminado con éxito');
-          onDelete(libro.idLibro);
+          if (onDelete) {
+            onDelete(libro.idLibro);
+          }
         })
         .catch((error) => {
           console.error('Error al eliminar el libro:', error);
@@ -155,11 +86,8 @@ const handleSave = () => {
   };
 
   return (
-    <div className="card-libro">
-      <div className="card-libro-header">
-        <h3>{editData.titulo}</h3>
-      </div>
-      <div className="card-libro-body">
+    <div className="card-item">
+      <div className="card-content">
         {isEditing ? (
           <div>
             <input
@@ -168,18 +96,21 @@ const handleSave = () => {
               value={editData.titulo}
               onChange={handleInputChange}
               placeholder="Título"
+              className="input-field"
             />
             <textarea
               name="descripcion"
               value={editData.descripcion}
               onChange={handleInputChange}
               placeholder="Descripción"
+              className="textarea-field"
             />
             <input
               type="date"
               name="fechaDePublicacion"
               value={new Date(editData.fechaDePublicacion).toISOString().substring(0, 10)}
               onChange={handleInputChange}
+              className="input-field"
             />
             <input
               type="text"
@@ -187,6 +118,7 @@ const handleSave = () => {
               value={editData.autorNombre}
               onChange={handleInputChange}
               placeholder="Autor"
+              className="input-field"
             />
             <input
               type="text"
@@ -194,20 +126,25 @@ const handleSave = () => {
               value={editData.autorNacionalidad}
               onChange={handleInputChange}
               placeholder="Nacionalidad"
+              className="input-field"
             />
             <input
               type="date"
               name="autorFechaNacimiento"
               value={new Date(editData.autorFechaNacimiento).toISOString().substring(0, 10)}
               onChange={handleInputChange}
+              className="input-field"
             />
 
-            <button onClick={handleSave} className="btn-save">Guardar</button>
-            <button onClick={handleCancel} className="btn-cancel">Cancelar</button>
+            <button onClick={handleSave} className="btn btn-submit">Guardar</button>
+            <button onClick={handleCancel} className="btn btn-cancel">Cancelar</button>
           </div>
         ) : (
           <div>
-            <button onClick={toggleDescription} className="btn-toggle-description">
+            <div className="card-title">
+              <h2>{editData.titulo}</h2>
+            </div>
+            <button onClick={toggleDescription} className="btn btn-toggle-description">
               {isDescriptionVisible ? 'Ocultar Descripción' : 'Mostrar Descripción'}
             </button>
             {isDescriptionVisible && <p>{editData.descripcion}</p>}
@@ -217,8 +154,8 @@ const handleSave = () => {
             <p>Fecha de Nacimiento: {new Date(editData.autorFechaNacimiento).toLocaleDateString()}</p>
 
             <div className="card-libro-buttons">
-              <button onClick={handleEdit} className="btn-edit">Editar</button>
-              <button onClick={handleDelete} className="btn-delete">Eliminar</button>
+              <button onClick={handleEdit} className="btn btn-edit">Editar</button>
+              <button onClick={handleDelete} className="btn btn-delete">Eliminar</button>
             </div>
           </div>
         )}

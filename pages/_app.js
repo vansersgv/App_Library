@@ -1,4 +1,4 @@
-import '../styles/global.scss'; // Asegúrate de que la ruta y el archivo existen
+import '../styles/main.scss';
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />;

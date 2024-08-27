@@ -1,5 +1,3 @@
-// LoginPage.js
-
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -10,11 +8,9 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Aquí realizarías la autenticación del usuario
-    // Suponiendo que la autenticación es exitosa:
-    const isAuthenticated = true; // Cambia esto según tu lógica de autenticación
+    const isAuthenticated = true; 
     if (isAuthenticated) {
-      router.push('/add-libro'); // Redirige a la página de agregar libro
+      router.push('/add-libro'); 
     }
   };
 
